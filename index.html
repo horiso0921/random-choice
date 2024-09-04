@@ -139,7 +139,7 @@
         }
 
         function chooseElement(names, seed) {
-            return names[seededRandom(seed).next() % names.length];
+            return names[(seededRandom(seed).next() % names.length + names.length) % names.length];
         }
 
         document.getElementById('seedForm').addEventListener('submit', function(event) {
