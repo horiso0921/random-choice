@@ -113,6 +113,7 @@
               let t;
            
               t = this.x ^ (this.x << 11);
+              this.x = this.y; this.y = this.z; this.z = this.w;
               return this.w = (this.w ^ (this.w >>> 19)) ^ (t ^ (t >>> 8)); 
             }
         }
@@ -135,11 +136,17 @@
         }
 
         function seededRandom(seed) {
-            return new Random(seed);
+            let random = new Random(seed);
+            for (let i = 0; i < seed%654321; i++) {
+                random.next();
+            }
+            return random.next()
         }
 
         function chooseElement(names, seed) {
-            return names[(seededRandom(seed).next() % names.length + names.length) % names.length];
+            let random_num = seededRandom(seed) % names.length;
+            const index = (seededRandom(seed) % names.length + names.length) % names.length;
+            return names[index];
         }
 
         document.getElementById('seedForm').addEventListener('submit', function(event) {
